@@ -3,6 +3,7 @@ import { InterestPeriodEditor } from './components/InterestPeriodEditor';
 import { SummaryCards } from './components/SummaryCards';
 import { PaymentScheduleTable } from './components/PaymentScheduleTable';
 import { useLoanCalculator } from './hooks/useLoanCalculator';
+import { SparklesText } from './components/magicui/sparkles-text';
 
 const HomeLoanCalculator = () => {
   const {
@@ -24,7 +25,9 @@ const HomeLoanCalculator = () => {
     <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
       <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         <div className="text-center mb-4 sm:mb-8">
-          <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">เครื่องมือคำนวณสินเชื่อบ้าน</h1>
+          <SparklesText className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">
+            เครื่องมือคำนวณสินเชื่อบ้าน
+          </SparklesText>
           <p className="text-sm sm:text-base text-gray-600">คำนวณการผ่อนชำระและวางแผนการเงินของคุณ</p>
         </div>
 
