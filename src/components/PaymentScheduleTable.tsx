@@ -9,7 +9,7 @@ import { ExportButton } from './ExportButton';
 
 interface PaymentScheduleTableProps {
   paymentDetails: PaymentDetail[];
-  monthlyOverpayments: {[month: number]: number};
+  monthlyOverpayments: { [month: number]: number };
   onUpdateMonthlyOverpayment: (month: number, amount: number) => void;
 }
 
@@ -40,9 +40,9 @@ export const PaymentScheduleTable = ({
             <div className="text-xs sm:text-sm font-normal text-gray-600">
               ทั้งหมด {paymentDetails.length} เดือน
             </div>
-            <ExportButton 
-              paymentDetails={paymentDetails} 
-              monthlyOverpayments={monthlyOverpayments} 
+            <ExportButton
+              paymentDetails={paymentDetails}
+              monthlyOverpayments={monthlyOverpayments}
             />
           </div>
         </CardTitle>
@@ -106,7 +106,7 @@ export const PaymentScheduleTable = ({
               </tbody>
             </table>
           </div>
-          
+
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 p-3 sm:p-0">
@@ -126,7 +126,7 @@ export const PaymentScheduleTable = ({
                     <SelectItem value="12">12</SelectItem>
                     <SelectItem value="24">24</SelectItem>
                     <SelectItem value="36">36</SelectItem>
-                    <SelectItem value="50">50</SelectItem>
+                    <SelectItem value="60">60</SelectItem>
                     <SelectItem value="100">100</SelectItem>
                   </SelectContent>
                 </Select>
@@ -134,7 +134,7 @@ export const PaymentScheduleTable = ({
                   รายการ (ทั้งหมด {paymentDetails.length})
                 </span>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
