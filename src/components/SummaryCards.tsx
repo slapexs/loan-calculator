@@ -54,7 +54,7 @@ export const SummaryCards = ({ paymentDetails, interestPeriods, loanYears }: Sum
             <NumberTicker className="text-orange-600 font-bold" value={floatingRate} decimalPlaces={2} />%
 
           </div>
-          <div className="text-xs sm:text-sm text-gray-600">อัตราดอกเบี้ยลอยตัวหลังหมดโปร</div>
+          <div className="text-xs sm:text-sm text-gray-600">อัตราดอกเบี้ยลอยตัว</div>
         </CardContent>
       </Card>
 
