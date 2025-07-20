@@ -1,54 +1,47 @@
-# React + TypeScript + Vite
+# เครื่องมือคำนวณสินเชื่อบ้าน 🏠
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+เครื่องมือคำนวณสินเชื่อบ้านที่ช่วยให้คุณวางแผนการเงินและคำนวณการผ่อนชำระได้อย่างแม่นยำ
 
-Currently, two official plugins are available:
+## ✨ ฟีเจอร์หลัก
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📊 **คำนวณการผ่อนชำระ** - คำนวณยอดผ่อนรายเดือนตามจำนวนเงินกู้และอัตราดอกเบี้ย
+- 📈 **อัตราดอกเบี้ยแบบช่วง** - ตั้งค่าอัตราดอกเบี้ยที่แตกต่างกันในแต่ละช่วงปี
+- 💰 **การจ่ายเกิน** - เพิ่มการจ่ายเกินในแต่ละเดือนเพื่อลดดอกเบี้ย
+- 📋 **ตารางการผ่อนชำระ** - แสดงรายละเอียดการผ่อนชำระทุกเดือน
+- 📤 **Export ข้อมูล** - ดาวน์โหลดตารางเป็นไฟล์ Excel หรือ CSV
+- 📱 **Responsive Design** - ใช้งานได้ทั้งมือถือและคอมพิวเตอร์
 
-## Expanding the ESLint configuration
+## 🚀 การใช้งาน
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **ใส่ข้อมูลเงินกู้** - จำนวนเงินกู้และระยะเวลา
+2. **ตั้งค่าอัตราดอกเบี้ย** - กำหนดอัตราดอกเบี้ยในแต่ละช่วงปี
+3. **ดูผลการคำนวณ** - ตรวจสอบสรุปข้อมูลและตารางการผ่อนชำระ
+4. **Export ข้อมูล** - ดาวน์โหลดตารางเพื่อเก็บไว้
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🛠️ เทคโนโลยี
+
+- **React 19** + **TypeScript** - Frontend framework
+- **Tailwind CSS** - Styling
+- **Vite** - Build tool
+- **SheetJS** + **PapaParse** - Export functionality
+
+## 📦 การติดตั้ง
+
+```bash
+# Clone repository
+git clone https://github.com/slapexs/loan-calculate.git
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚠️ ข้อจำกัดความรับผิดชอบ
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+ข้อมูลทั้งหมดเป็นการคำนวณคร่าวๆ เท่านั้น ไม่ใช่ข้อมูลจริงจากธนาคาร กรุณาติดต่อธนาคารโดยตรงเพื่อข้อมูลที่แม่นยำ
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 📄 License
+
+MIT License - สร้างเพื่อการศึกษาและใช้งานส่วนตัว

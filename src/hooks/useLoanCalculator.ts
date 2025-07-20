@@ -75,7 +75,7 @@ export const useLoanCalculator = () => {
         monthlyPayment,
         principalPayment,
         interestPayment,
-        overpayment: monthlyOverpayment,
+        overpayment: monthlyOverpayment - overpayment,
         totalInterestPaid,
         totalPrincipalPaid,
         lastPaymentDate: paymentDate.toLocaleDateString('th-TH')

@@ -22,7 +22,7 @@ export const ExportButton = ({ paymentDetails, monthlyOverpayments }: ExportButt
 
     setIsExporting(true);
     try {
-      exportPaymentSchedule(selectedFormat, paymentDetails, monthlyOverpayments);
+      await exportPaymentSchedule(selectedFormat, paymentDetails, monthlyOverpayments);
     } catch (error) {
       console.error('Export error:', error);
       alert('เกิดข้อผิดพลาดในการ Export ข้อมูล');

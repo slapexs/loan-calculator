@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import Papa from 'papaparse';
 import { PaymentDetail } from '../types';
 
@@ -63,55 +63,108 @@ export const exportToCSV = (
   URL.revokeObjectURL(url);
 };
 
-export const exportToExcel = (
+export const exportToExcel = async (
   paymentDetails: PaymentDetail[],
   monthlyOverpayments: { [month: number]: number },
   filename: string = 'payment-schedule'
-): void => {
+): Promise<void> => {
   const exportData = convertPaymentDetailsToExportData(paymentDetails, monthlyOverpayments);
   
   // Create a new workbook
-  const wb = XLSX.utils.book_new();
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('ตารางการผ่อนชำระ');
   
-  // Convert data to worksheet
-  const ws = XLSX.utils.json_to_sheet(exportData);
-  
-  // Set column widths for better display
-  const colWidths = [
-    { wch: 10 }, // เดือนที่
-    { wch: 8 },  // ปีที่
-    { wch: 15 }, // เงินต้นคงเหลือ
-    { wch: 12 }, // ยอดผ่อน
-    { wch: 12 }, // เงินต้น
-    { wch: 12 }, // ดอกเบี้ย
-    { wch: 10 }, // จ่ายเกิน
-    { wch: 15 }, // ดอกเบี้ยรวม
-    { wch: 15 }, // เงินต้นรวม
-    { wch: 12 }  // วันที่
+  // Define column headers
+  const headers = [
+    'เดือนที่', 'ปีที่', 'เงินต้นคงเหลือ', 'ยอดผ่อน', 'เงินต้น', 
+    'ดอกเบี้ย', 'จ่ายเกิน', 'ดอกเบี้ยรวม', 'เงินต้นรวม', 'วันที่'
   ];
-  ws['!cols'] = colWidths;
   
-  // Add worksheet to workbook
-  XLSX.utils.book_append_sheet(wb, ws, 'ตารางการผ่อนชำระ');
+  // Add headers
+  worksheet.addRow(headers);
   
-  // Write file
-  XLSX.writeFile(wb, `${filename}.xlsx`);
+  // Style the header row
+  const headerRow = worksheet.getRow(1);
+  headerRow.font = { bold: true };
+  headerRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFE6E6FA' }
+  };
+  
+  // Add data rows
+  exportData.forEach(row => {
+    worksheet.addRow([
+      row.เดือนที่,
+      row.ปีที่,
+      row.เงินต้นคงเหลือ,
+      row.ยอดผ่อน,
+      row.เงินต้น,
+      row.ดอกเบี้ย,
+      row.จ่ายเกิน,
+      row.ดอกเบี้ยรวม,
+      row.เงินต้นรวม,
+      row.วันที่
+    ]);
+  });
+  
+  // Set column widths
+  worksheet.columns = [
+    { width: 10 }, // เดือนที่
+    { width: 8 },  // ปีที่
+    { width: 18 }, // เงินต้นคงเหลือ
+    { width: 15 }, // ยอดผ่อน
+    { width: 15 }, // เงินต้น
+    { width: 15 }, // ดอกเบี้ย
+    { width: 12 }, // จ่ายเกิน
+    { width: 18 }, // ดอกเบี้ยรวม
+    { width: 18 }, // เงินต้นรวม
+    { width: 15 }  // วันที่
+  ];
+  
+  // Add borders to all cells
+  worksheet.eachRow((row) => {
+    row.eachCell((cell) => {
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+    });
+  });
+  
+  // Generate buffer and download
+  const buffer = await workbook.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { 
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+  });
+  
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', `${filename}.xlsx`);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 };
 
 export type ExportFormat = 'csv' | 'xlsx';
 
-export const exportPaymentSchedule = (
+export const exportPaymentSchedule = async (
   format: ExportFormat,
   paymentDetails: PaymentDetail[],
   monthlyOverpayments: { [month: number]: number },
   filename?: string
-): void => {
+): Promise<void> => {
   const defaultFilename = `payment-schedule-${new Date().toISOString().split('T')[0]}`;
   const finalFilename = filename || defaultFilename;
   
   if (format === 'csv') {
     exportToCSV(paymentDetails, monthlyOverpayments, finalFilename);
   } else if (format === 'xlsx') {
-    exportToExcel(paymentDetails, monthlyOverpayments, finalFilename);
+    await exportToExcel(paymentDetails, monthlyOverpayments, finalFilename);
   }
 };
