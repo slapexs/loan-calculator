@@ -86,8 +86,9 @@ export const InterestPeriodEditor = ({
               <Input
                 type="number"
                 step="0.1"
-                value={period.rate}
-                onChange={(e) => onUpdatePeriod(index, 'rate', Number(e.target.value))}
+                min="0"
+                value={period.rate === 0 ? '' : period.rate}
+                onChange={(e) => onUpdatePeriod(index, 'rate', e.target.value === '' ? 0 : Math.max(0, Number(e.target.value)))}
                 className="h-8 w-full text-xs sm:text-sm"
               />
             </div>
