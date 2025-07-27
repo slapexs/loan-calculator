@@ -21,26 +21,31 @@ export const useLoanCalculator = () => {
     let totalPrincipalPaid = 0;
     
     const totalMonths = loanYears * 12;
-
-    for (let month = 1; month <= totalMonths; month++) {
-      const currentYear = Math.ceil(month / 12);
+    let currentMonth = 1;
+    
+    while (currentMonth <= totalMonths && remainingPrincipal > 0) {
+      const currentYear = Math.ceil(currentMonth / 12);
       
       const applicablePeriod = interestPeriods.find(period => 
         currentYear >= period.startYear && currentYear <= period.endYear
       );
       
-      if (!applicablePeriod) continue;
+      if (!applicablePeriod) {
+        currentMonth++;
+        continue;
+      }
       
       const monthlyRate = applicablePeriod.rate / 100 / 12;
-      const remainingMonths = totalMonths - month + 1;
+      const remainingMonths = totalMonths - currentMonth + 1;
       
+      // Calculate base monthly payment
       let monthlyPayment = 0;
       if (applicablePeriod.fixedPayment) {
         monthlyPayment = applicablePeriod.fixedPayment;
       } else {
         if (monthlyRate > 0) {
           monthlyPayment = remainingPrincipal * (monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) / 
-                           (Math.pow(1 + monthlyRate, remainingMonths) - 1);
+                         (Math.pow(1 + monthlyRate, remainingMonths) - 1);
         } else {
           monthlyPayment = remainingPrincipal / remainingMonths;
         }
@@ -49,12 +54,18 @@ export const useLoanCalculator = () => {
       const interestPayment = remainingPrincipal * monthlyRate;
       let principalPayment = monthlyPayment - interestPayment;
       
-      const monthlyOverpayment = monthlyOverpayments[month] || 0;
-      principalPayment += monthlyOverpayment;
-      monthlyPayment += monthlyOverpayment;
+      // Apply overpayments
+      const monthlyOverpayment = monthlyOverpayments[currentMonth] || 0;
+      const periodOverpayment = (applicablePeriod.overpayment || 0) / 12; // Convert annual overpayment to monthly
+      const totalOverpayment = monthlyOverpayment + periodOverpayment;
+      
+      // Apply overpayment to principal
+      principalPayment += totalOverpayment;
+      monthlyPayment += totalOverpayment;
       
       let overpayment = 0;
       
+      // Ensure we don't pay more than remaining principal
       if (principalPayment > remainingPrincipal) {
         overpayment = principalPayment - remainingPrincipal;
         principalPayment = remainingPrincipal;
@@ -66,22 +77,22 @@ export const useLoanCalculator = () => {
       totalPrincipalPaid += principalPayment;
       
       const paymentDate = new Date();
-      paymentDate.setMonth(paymentDate.getMonth() + month - 1);
+      paymentDate.setMonth(paymentDate.getMonth() + currentMonth - 1);
       
       monthlyDetails.push({
-        month,
+        month: currentMonth,
         year: currentYear,
-        remainingPrincipal: remainingPrincipal,
+        remainingPrincipal: Math.max(0, remainingPrincipal),
         monthlyPayment,
         principalPayment,
         interestPayment,
-        overpayment: monthlyOverpayment - overpayment,
+        overpayment: Math.max(0, totalOverpayment - overpayment),
         totalInterestPaid,
         totalPrincipalPaid,
         lastPaymentDate: paymentDate.toLocaleDateString('th-TH')
       });
       
-      if (remainingPrincipal <= 0) break;
+      currentMonth++;
     }
     
     setPaymentDetails(monthlyDetails);

@@ -60,7 +60,8 @@ export const PaymentScheduleTable = ({
                   <th className="text-right p-2">ยอดผ่อน</th>
                   <th className="text-right p-2">เงินต้น</th>
                   <th className="text-right p-2">ดอกเบี้ย</th>
-                  <th className="text-right p-2">จ่ายเกิน</th>
+                  <th className="text-right p-2">จ่ายเกิน (รายเดือน)</th>
+                  <th className="text-right p-2">จ่ายเกิน (ต่องวด)</th>
                   <th className="text-right p-2">ดอกเบี้ยรวม</th>
                   <th className="text-right p-2">เงินต้นรวม</th>
                   <th className="text-left p-2">วันที่</th>
@@ -93,6 +94,9 @@ export const PaymentScheduleTable = ({
                           className="h-6 w-20 sm:w-24 text-xs"
                         />
                       </div>
+                    </td>
+                    <td className="p-2 text-right">
+                      ฿{payment.overpayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
                       ฿{payment.totalInterestPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}

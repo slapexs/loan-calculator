@@ -3,6 +3,7 @@ export interface InterestPeriod {
   endYear: number;
   rate: number;
   fixedPayment?: number;
+  overpayment?: number;
 }
 
 export interface PaymentDetail {
