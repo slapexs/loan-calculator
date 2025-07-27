@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { InterestPeriod, PaymentDetail } from '../types';
 
 export const useLoanCalculator = () => {
-  const [loanAmount, setLoanAmount] = useState(5000000);
+  const [loanAmount, setLoanAmount] = useState(2000000);
   const [loanYears, setLoanYears] = useState(30);
   const [interestPeriods, setInterestPeriods] = useState<InterestPeriod[]>([
     { startYear: 1, endYear: 3, rate: 3.0, fixedPayment: undefined },

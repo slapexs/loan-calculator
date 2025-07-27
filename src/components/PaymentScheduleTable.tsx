@@ -60,8 +60,8 @@ export const PaymentScheduleTable = ({
                   <th className="text-right p-2">ยอดผ่อน</th>
                   <th className="text-right p-2">เงินต้น</th>
                   <th className="text-right p-2">ดอกเบี้ย</th>
-                  <th className="text-right p-2">จ่ายเกิน (รายเดือน)</th>
-                  <th className="text-right p-2">จ่ายเกิน (ต่องวด)</th>
+                  <th className="text-right p-2">จ่ายเกิน (แยกรายเดือน)</th>
+                  <th className="text-right p-2">จ่ายเกิน (อัตโนมัติ)</th>
                   <th className="text-right p-2">ดอกเบี้ยรวม</th>
                   <th className="text-right p-2">เงินต้นรวม</th>
                   <th className="text-left p-2">วันที่</th>
@@ -73,16 +73,16 @@ export const PaymentScheduleTable = ({
                     <td className="p-2">{payment.month}</td>
                     <td className="p-2">{payment.year}</td>
                     <td className="p-2 text-right">
-                      ฿{payment.remainingPrincipal.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.remainingPrincipal.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.monthlyPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.monthlyPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.principalPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.principalPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.interestPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.interestPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
                       <div className="flex justify-end">
@@ -96,13 +96,13 @@ export const PaymentScheduleTable = ({
                       </div>
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.overpayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.overpayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.totalInterestPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.totalInterestPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.totalPrincipalPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.totalPrincipalPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2">{payment.lastPaymentDate}</td>
                   </tr>
