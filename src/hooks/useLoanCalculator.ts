@@ -51,25 +51,22 @@ export const useLoanCalculator = () => {
         }
       }
       
+      // Calculate base payment components
       const interestPayment = remainingPrincipal * monthlyRate;
       let principalPayment = monthlyPayment - interestPayment;
       
-      // Apply overpayments
-      const monthlyOverpayment = monthlyOverpayments[currentMonth] || 0;
-      const periodOverpayment = (applicablePeriod.overpayment || 0) / 12; // Convert annual overpayment to monthly
-      const totalOverpayment = monthlyOverpayment + periodOverpayment;
+      // Get automatic overpayment from interest period settings (converted to monthly)
+      const automaticOverpayment = (applicablePeriod.overpayment || 0) / 12;
       
-      // Apply overpayment to principal
-      principalPayment += totalOverpayment;
-      monthlyPayment += totalOverpayment;
+      // Get manual overpayment from user input
+      const manualOverpayment = monthlyOverpayments[currentMonth] || 0;
       
-      let overpayment = 0;
+      // Apply both automatic and manual overpayments to principal
+      principalPayment += automaticOverpayment + manualOverpayment;
       
       // Ensure we don't pay more than remaining principal
       if (principalPayment > remainingPrincipal) {
-        overpayment = principalPayment - remainingPrincipal;
         principalPayment = remainingPrincipal;
-        monthlyPayment = principalPayment + interestPayment;
       }
       
       remainingPrincipal -= principalPayment;
@@ -86,7 +83,7 @@ export const useLoanCalculator = () => {
         monthlyPayment,
         principalPayment,
         interestPayment,
-        overpayment: Math.max(0, totalOverpayment - overpayment),
+        overpayment: automaticOverpayment,
         totalInterestPaid,
         totalPrincipalPaid,
         lastPaymentDate: paymentDate.toLocaleDateString('th-TH')

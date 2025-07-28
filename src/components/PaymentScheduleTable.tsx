@@ -58,7 +58,7 @@ export const PaymentScheduleTable = ({
                   <th className="text-right p-2">ยอดผ่อน</th>
                   <th className="text-right p-2">เงินต้น</th>
                   <th className="text-right p-2">ดอกเบี้ย</th>
-                  <th className="text-right p-2">จ่ายเกิน (แยกรายเดือน)</th>
+                  <th className="text-right p-2">จ่ายเกิน (กำหนดเอง)</th>
                   <th className="text-right p-2">จ่ายเกิน (อัตโนมัติ)</th>
                   <th className="text-right p-2">ดอกเบี้ยรวม</th>
                   <th className="text-right p-2">เงินต้นรวม</th>
@@ -88,7 +88,10 @@ export const PaymentScheduleTable = ({
                           type="number"
                           placeholder="0"
                           value={monthlyOverpayments[payment.month] || ''}
-                          onChange={(e) => onUpdateMonthlyOverpayment(payment.month, Number(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            onUpdateMonthlyOverpayment(payment.month, value === '' ? 0 : Number(value));
+                          }}
                           className="h-6 w-20 sm:w-24 text-xs"
                         />
                       </div>
