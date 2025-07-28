@@ -61,15 +61,15 @@ export const InterestPeriodEditor = ({
       </CardHeader>
       <CardContent className="space-y-4 p-3 sm:p-4">
         <div className="relative">
-          <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0">
+          <div className="overflow-x-auto pb-2 -mx-3 sm:mx-0">
             <div className="inline-block min-w-full px-4 sm:px-0">
               <div className="min-w-[800px] sm:min-w-0">
-                <div className="grid grid-cols-5 gap-2 text-xs font-medium text-muted-foreground mb-2">
-                  <div>ช่วงเวลา (ปี)</div>
-                  <div>อัตราดอกเบี้ย</div>
-                  <div>เงินงวดคงที่ (บาท/เดือน)</div>
-                  <div>จ่ายเกิน (บาท/ปี)</div>
-                  <div></div>
+                <div className="grid grid-cols-6 gap-2 text-xs font-medium text-muted-foreground px-4">
+                  <div className="col-span-2">ช่วงเวลา (ปี)</div>
+                  <div className="col-span-1">อัตราดอกเบี้ย (%/ปี)</div>
+                  <div className="col-span-1">เงินงวดคงที่ (บาท/เดือน)</div>
+                  <div className="col-span-1">จ่ายเกิน (บาท/ปี)</div>
+                  <div className="col-span-1"></div>
                 </div>
                 
                 <div className="space-y-3">
@@ -77,11 +77,11 @@ export const InterestPeriodEditor = ({
                     <div 
                       key={index} 
                       className={cn(
-                        "grid grid-cols-5 gap-2 items-center p-3 rounded-lg",
+                        "grid grid-cols-6 gap-2 items-center p-3 rounded-lg",
                         index % 2 === 0 ? "bg-muted/20" : ""
                       )}
                     >
-                      <div className="col-span-1 flex items-center gap-2">
+                      <div className="col-span-2 flex items-center gap-2">
                         <Select
                           value={period.startYear.toString()}
                           onValueChange={(value) => onUpdatePeriod(index, 'startYear', Number(value))}
@@ -92,7 +92,7 @@ export const InterestPeriodEditor = ({
                           <SelectContent>
                             {getAvailableYears(index, false).map(year => (
                               <SelectItem key={`start-${year}`} value={year.toString()} className="text-xs">
-                                {year}
+                                ปีที่ {year}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -108,7 +108,7 @@ export const InterestPeriodEditor = ({
                           <SelectContent>
                             {getAvailableYears(index, true).map(year => (
                               <SelectItem key={`end-${year}`} value={year.toString()} className="text-xs">
-                                {year}
+                                ปีที่ {year}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -122,10 +122,9 @@ export const InterestPeriodEditor = ({
                           min="0"
                           value={period.rate === 0 ? '' : period.rate}
                           onChange={(e) => onUpdatePeriod(index, 'rate', e.target.value === '' ? 0 : Math.max(0, Number(e.target.value)))}
-                          className="h-8 w-full text-sm text-right pr-6"
+                          className="h-8 w-full text-sm"
                           placeholder="0.0"
                         />
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
                       </div>
                       
                       <div className="col-span-1">
@@ -134,26 +133,25 @@ export const InterestPeriodEditor = ({
                           placeholder="คำนวณอัตโนมัติ"
                           value={period.fixedPayment || ''}
                           onChange={(e) => onUpdatePeriod(index, 'fixedPayment', e.target.value ? Number(e.target.value) : undefined)}
-                          className="h-8 w-full text-sm text-right"
+                          className="h-8 w-full text-sm"
                         />
                       </div>
                       
                       <div className="col-span-1">
-                        <div className="relative">
-                          <Input
+                      <Input
                             type="number"
                             placeholder="0"
+                            min="0"
+                            step="100"
                             value={period.overpayment || ''}
                             onChange={(e) => onUpdatePeriod(index, 'overpayment', e.target.value ? Number(e.target.value) : 0)}
-                            className="h-8 w-full text-sm text-right pr-8"
+                            className="h-8 w-full text-sm"
                           />
-                          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">/ปี</span>
-                        </div>
                       </div>
                       
                       <div className="col-span-1 flex justify-start">
                         <Button
-                          variant="ghost"
+                          variant="destructive"
                           size="sm"
                           onClick={(e) => {
                             e.preventDefault();
@@ -161,10 +159,9 @@ export const InterestPeriodEditor = ({
                             onRemovePeriod(index);
                           }}
                           disabled={interestPeriods.length === 1}
-                          className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10"
                           title="ลบช่วงนี้"
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <Trash2 className="h-3.5 w-3.5" /> ลบ
                         </Button>
                       </div>
                     </div>
@@ -177,7 +174,7 @@ export const InterestPeriodEditor = ({
         
         <div className="text-xs text-muted-foreground mt-2 px-2">
           <p>• ปล่อยช่อง "เงินงวดคงที่" ว่างไว้เพื่อคำนวณอัตโนมัติตามอัตราดอกเบี้ย</p>
-          <p>• ระบุ "จ่ายเกิน" เป็นจำนวนเงินที่ต้องการชำระเพิ่มเติมในแต่ละปี</p>
+          <p>• ระบุ "จ่ายเกิน" เป็นจำนวนเงินที่ต้องการชำระเพิ่มเติมหารเฉลี่ยในแต่ละเดือน</p>
           <p className="sm:hidden text-blue-500 mt-1">• เลื่อนซ้าย-ขวาเพื่อดูข้อมูลเพิ่มเติม</p>
         </div>
       </CardContent>

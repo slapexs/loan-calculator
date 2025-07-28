@@ -105,9 +105,9 @@ export const SummaryCards = ({
           <CardContent className="p-4 sm:p-6 mt-3">
             <div>
               <p className="text-sm text-gray-500 mb-1 flex items-center justify-between">
-                อัตราดอกเบี้ยเฉลี่ย 3 ปีแรก :{" "}
+                อัตราดอกเบี้ยลอยตัว :
                 <span className="text-lg font-bold text-gray-700">
-                  {avgFirst3YearRate.toFixed(2)} %
+                  {floatingRate.toFixed(2)} %
                 </span>
               </p>
             </div>
