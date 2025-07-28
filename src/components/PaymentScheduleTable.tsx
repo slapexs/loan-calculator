@@ -32,7 +32,7 @@ export const PaymentScheduleTable = ({
   };
 
   return (
-    <Card>
+    <Card data-payment-table>
       <CardHeader className="p-3 sm:p-6">
         <CardTitle className="text-lg sm:text-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <span>ตารางการผ่อนชำระ</span>

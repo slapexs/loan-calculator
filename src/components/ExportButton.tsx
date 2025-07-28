@@ -13,9 +13,10 @@ import {
 interface ExportButtonProps {
   paymentDetails: PaymentDetail[];
   monthlyOverpayments: { [month: number]: number };
+  className?: string;
 }
 
-export const ExportButton = ({ paymentDetails, monthlyOverpayments }: ExportButtonProps) => {
+export const ExportButton = ({ paymentDetails, monthlyOverpayments, className = '' }: ExportButtonProps) => {
   const [selectedFormat, setSelectedFormat] = useState<ExportFormat>('xlsx');
   const [isExporting, setIsExporting] = useState(false);
 
@@ -47,9 +48,9 @@ export const ExportButton = ({ paymentDetails, monthlyOverpayments }: ExportButt
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
-          variant="default" 
-          size="sm" 
-          className="h-8 gap-1 pr-2 pl-3"
+          variant="default"
+          className={`h-8 gap-1 pr-2 pl-3 ${className}`} 
+          size="sm"
           disabled={isExporting || paymentDetails.length === 0}
         >
           <Download className="h-3.5 w-3.5" />

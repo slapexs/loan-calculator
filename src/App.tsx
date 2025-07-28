@@ -5,6 +5,9 @@ import { PaymentScheduleTable } from "./components/PaymentScheduleTable";
 import { Footer } from "./components/Footer";
 import { useLoanCalculator } from "./hooks/useLoanCalculator";
 import { SparklesText } from "./components/magicui/sparkles-text";
+import { FloatingDock } from "./components/FloatingDock";
+import { useState } from "react";
+// Simple modal implementation to replace dialog
 
 const HomeLoanCalculator = () => {
   const {
@@ -21,6 +24,8 @@ const HomeLoanCalculator = () => {
     updateMonthlyOverpayment,
     getAvailableYears,
   } = useLoanCalculator();
+
+  const [isChartOpen, setIsChartOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -85,6 +90,35 @@ const HomeLoanCalculator = () => {
           />
         </div>
       </main>
+
+      {/* Simple Modal for Chart */}
+      {isChartOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <div className="p-4 border-b flex justify-between items-center">
+              <h3 className="text-lg font-semibold">กราฟแสดงการผ่อนชำระ</h3>
+              <button 
+                onClick={() => setIsChartOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6 overflow-auto">
+              <div className="h-[500px] flex items-center justify-center bg-gray-50 rounded-lg">
+                <p className="text-gray-500">กราฟจะแสดงที่นี่</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Dock */}
+      <FloatingDock
+        paymentDetails={paymentDetails}
+        monthlyOverpayments={monthlyOverpayments}
+        onShowChart={() => setIsChartOpen(true)}
+      />
 
       {/* Footer */}
       <Footer />
