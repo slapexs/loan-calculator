@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2, Calculator, RotateCcwIcon } from 'lucide-react';
+import { Plus, Trash2, RotateCcwIcon } from 'lucide-react';
 import { InterestPeriod } from '../types';
 import { cn } from '@/lib/utils';
 

@@ -43,13 +43,19 @@ const HomeLoanCalculator = () => {
         <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
           {/* Input Section - Stack on mobile, 2 columns on desktop */}
           <div className="grid grid-cols-1 md:grid-cols-6 md:gap-4 gap-y-4">
-            <div className="col-span-2">
+            <div className="col-span-2 space-y-2">
               <LoanInputForm
                 loanAmount={loanAmount}
                 loanYears={loanYears}
                 onLoanAmountChange={setLoanAmount}
                 onLoanYearsChange={setLoanYears}
               />
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-2 text-xs text-yellow-800">
+                <strong>ข้อจำกัดความรับผิดชอบ:</strong>{" "}
+                ข้อมูลทั้งหมดเป็นการคำนวณคร่าวๆ เท่านั้น
+                ไม่ใช่ข้อมูลจริงจากธนาคาร
+                กรุณาติดต่อธนาคารโดยตรงเพื่อข้อมูลที่แม่นยำ
+              </div>
             </div>
 
             <div className="col-span-4">

@@ -36,15 +36,13 @@ export const PaymentScheduleTable = ({
       <CardHeader className="p-3 sm:p-6">
         <CardTitle className="text-lg sm:text-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <span>ตารางการผ่อนชำระ</span>
-          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-            <div className="text-xs sm:text-sm font-normal text-gray-600">
-              ทั้งหมด {paymentDetails.length} เดือน
-            </div>
+          {/* <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
+            
             <ExportButton
               paymentDetails={paymentDetails}
               monthlyOverpayments={monthlyOverpayments}
             />
-          </div>
+          </div> */}
         </CardTitle>
         <CardDescription>ตารางแสดงรายละเอียดการผ่อนชำระ รวมเงินต้น ดอกเบี้ย จ่ายเกิน</CardDescription>
       </CardHeader>
