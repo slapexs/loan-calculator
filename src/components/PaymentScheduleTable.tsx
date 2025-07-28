@@ -5,18 +5,18 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PaymentDetail } from '../types';
-import { ExportButton } from './ExportButton';
 
 interface PaymentScheduleTableProps {
   paymentDetails: PaymentDetail[];
   monthlyOverpayments: { [month: number]: number };
   onUpdateMonthlyOverpayment: (month: number, amount: number) => void;
+  onShowChart?: () => void;
 }
 
 export const PaymentScheduleTable = ({
   paymentDetails,
   monthlyOverpayments,
-  onUpdateMonthlyOverpayment
+  onUpdateMonthlyOverpayment,
 }: PaymentScheduleTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(24);
@@ -32,19 +32,17 @@ export const PaymentScheduleTable = ({
   };
 
   return (
-    <Card>
+    <Card data-payment-table>
       <CardHeader className="p-3 sm:p-6">
         <CardTitle className="text-lg sm:text-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <span>ตารางการผ่อนชำระ</span>
-          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-            <div className="text-xs sm:text-sm font-normal text-gray-600">
-              ทั้งหมด {paymentDetails.length} เดือน
-            </div>
+          {/* <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
+            
             <ExportButton
               paymentDetails={paymentDetails}
               monthlyOverpayments={monthlyOverpayments}
             />
-          </div>
+          </div> */}
         </CardTitle>
         <CardDescription>ตารางแสดงรายละเอียดการผ่อนชำระ รวมเงินต้น ดอกเบี้ย จ่ายเกิน</CardDescription>
       </CardHeader>
@@ -60,7 +58,8 @@ export const PaymentScheduleTable = ({
                   <th className="text-right p-2">ยอดผ่อน</th>
                   <th className="text-right p-2">เงินต้น</th>
                   <th className="text-right p-2">ดอกเบี้ย</th>
-                  <th className="text-right p-2">จ่ายเกิน</th>
+                  <th className="text-right p-2">จ่ายเกิน (กำหนดเอง)</th>
+                  <th className="text-right p-2">จ่ายเกิน (อัตโนมัติ)</th>
                   <th className="text-right p-2">ดอกเบี้ยรวม</th>
                   <th className="text-right p-2">เงินต้นรวม</th>
                   <th className="text-left p-2">วันที่</th>
@@ -72,16 +71,16 @@ export const PaymentScheduleTable = ({
                     <td className="p-2">{payment.month}</td>
                     <td className="p-2">{payment.year}</td>
                     <td className="p-2 text-right">
-                      ฿{payment.remainingPrincipal.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.remainingPrincipal.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.monthlyPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.monthlyPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.principalPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.principalPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.interestPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.interestPayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
                       <div className="flex justify-end">
@@ -89,16 +88,22 @@ export const PaymentScheduleTable = ({
                           type="number"
                           placeholder="0"
                           value={monthlyOverpayments[payment.month] || ''}
-                          onChange={(e) => onUpdateMonthlyOverpayment(payment.month, Number(e.target.value) || 0)}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            onUpdateMonthlyOverpayment(payment.month, value === '' ? 0 : Number(value));
+                          }}
                           className="h-6 w-20 sm:w-24 text-xs"
                         />
                       </div>
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.totalInterestPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.overpayment.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2 text-right">
-                      ฿{payment.totalPrincipalPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                      {payment.totalInterestPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
+                    </td>
+                    <td className="p-2 text-right">
+                      {payment.totalPrincipalPaid.toLocaleString('th-TH', { maximumFractionDigits: 0 })}
                     </td>
                     <td className="p-2">{payment.lastPaymentDate}</td>
                   </tr>
@@ -134,6 +139,8 @@ export const PaymentScheduleTable = ({
                   รายการ (ทั้งหมด {paymentDetails.length})
                 </span>
               </div>
+
+
 
               <div className="flex items-center gap-2">
                 <Button

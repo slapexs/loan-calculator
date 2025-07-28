@@ -27,8 +27,8 @@ export const LoanInputForm = ({
           <Input
             id="loanAmount"
             type="number"
-            value={loanAmount}
-            onChange={(e) => onLoanAmountChange(Number(e.target.value))}
+            value={loanAmount === 0 ? '' : loanAmount}
+            onChange={(e) => onLoanAmountChange(e.target.value === '' ? 0 : Number(e.target.value))}
             className="mt-1 h-10 sm:h-12"
           />
         </div>
@@ -38,8 +38,8 @@ export const LoanInputForm = ({
           <Input
             id="loanYears"
             type="number"
-            value={loanYears}
-            onChange={(e) => onLoanYearsChange(Number(e.target.value))}
+            value={loanYears === 0 ? '' : loanYears}
+            onChange={(e) => onLoanYearsChange(e.target.value === '' ? 0 : Number(e.target.value))}
             className="mt-1 h-10 sm:h-12"
             min="1"
             max="50"

@@ -9,7 +9,8 @@ export interface ExportData {
   ยอดผ่อน: string;
   เงินต้น: string;
   ดอกเบี้ย: string;
-  จ่ายเกิน: string;
+  'จ่ายเกิน (กำหนดเอง)': string;
+  'จ่ายเกิน (อัตโนมัติ)': string;
   ดอกเบี้ยรวม: string;
   เงินต้นรวม: string;
   วันที่: string;
@@ -30,7 +31,8 @@ const convertPaymentDetailsToExportData = (
     ยอดผ่อน: formatCurrency(payment.monthlyPayment),
     เงินต้น: formatCurrency(payment.principalPayment),
     ดอกเบี้ย: formatCurrency(payment.interestPayment),
-    จ่ายเกิน: formatCurrency(monthlyOverpayments[payment.month] || 0),
+    'จ่ายเกิน (กำหนดเอง)': formatCurrency(monthlyOverpayments[payment.month] || 0),
+    'จ่ายเกิน (อัตโนมัติ)': formatCurrency(payment.overpayment || 0),
     ดอกเบี้ยรวม: formatCurrency(payment.totalInterestPaid),
     เงินต้นรวม: formatCurrency(payment.totalPrincipalPaid),
     วันที่: payment.lastPaymentDate,
@@ -77,7 +79,7 @@ export const exportToExcel = async (
   // Define column headers
   const headers = [
     'เดือนที่', 'ปีที่', 'เงินต้นคงเหลือ', 'ยอดผ่อน', 'เงินต้น', 
-    'ดอกเบี้ย', 'จ่ายเกิน', 'ดอกเบี้ยรวม', 'เงินต้นรวม', 'วันที่'
+    'ดอกเบี้ย', 'จ่ายเกิน (กำหนดเอง)', 'จ่ายเกิน (อัตโนมัติ)', 'ดอกเบี้ยรวม', 'เงินต้นรวม', 'วันที่'
   ];
   
   // Add headers
@@ -101,7 +103,8 @@ export const exportToExcel = async (
       row.ยอดผ่อน,
       row.เงินต้น,
       row.ดอกเบี้ย,
-      row.จ่ายเกิน,
+      row['จ่ายเกิน (กำหนดเอง)'],
+      row['จ่ายเกิน (อัตโนมัติ)'],
       row.ดอกเบี้ยรวม,
       row.เงินต้นรวม,
       row.วันที่
@@ -116,7 +119,8 @@ export const exportToExcel = async (
     { width: 15 }, // ยอดผ่อน
     { width: 15 }, // เงินต้น
     { width: 15 }, // ดอกเบี้ย
-    { width: 12 }, // จ่ายเกิน
+    { width: 18 }, // จ่ายเกิน (กำหนดเอง)
+    { width: 18 }, // จ่ายเกิน (อัตโนมัติ)
     { width: 18 }, // ดอกเบี้ยรวม
     { width: 18 }, // เงินต้นรวม
     { width: 15 }  // วันที่
