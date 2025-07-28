@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer";
 import { useLoanCalculator } from "./hooks/useLoanCalculator";
 import { SparklesText } from "./components/magicui/sparkles-text";
 import { FloatingDock } from "./components/FloatingDock";
+import { LoanCharts } from "./components/LoanCharts";
 import { useState } from "react";
 // Simple modal implementation to replace dialog
 
@@ -87,6 +88,7 @@ const HomeLoanCalculator = () => {
             paymentDetails={paymentDetails}
             monthlyOverpayments={monthlyOverpayments}
             onUpdateMonthlyOverpayment={updateMonthlyOverpayment}
+            onShowChart={() => setIsChartOpen(true)}
           />
         </div>
       </main>
@@ -105,8 +107,8 @@ const HomeLoanCalculator = () => {
               </button>
             </div>
             <div className="p-6 overflow-auto">
-              <div className="h-[500px] flex items-center justify-center bg-gray-50 rounded-lg">
-                <p className="text-gray-500">กราฟจะแสดงที่นี่</p>
+              <div className="min-h-[500px] w-full">
+                <LoanCharts paymentDetails={paymentDetails} />
               </div>
             </div>
           </div>

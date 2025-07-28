@@ -11,12 +11,14 @@ interface PaymentScheduleTableProps {
   paymentDetails: PaymentDetail[];
   monthlyOverpayments: { [month: number]: number };
   onUpdateMonthlyOverpayment: (month: number, amount: number) => void;
+  onShowChart?: () => void;
 }
 
 export const PaymentScheduleTable = ({
   paymentDetails,
   monthlyOverpayments,
-  onUpdateMonthlyOverpayment
+  onUpdateMonthlyOverpayment,
+  onShowChart
 }: PaymentScheduleTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(24);
@@ -139,6 +141,8 @@ export const PaymentScheduleTable = ({
                   รายการ (ทั้งหมด {paymentDetails.length})
                 </span>
               </div>
+
+
 
               <div className="flex items-center gap-2">
                 <Button
