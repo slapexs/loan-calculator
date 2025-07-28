@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PaymentDetail } from '../types';
-import { ExportButton } from './ExportButton';
 
 interface PaymentScheduleTableProps {
   paymentDetails: PaymentDetail[];
@@ -18,7 +17,6 @@ export const PaymentScheduleTable = ({
   paymentDetails,
   monthlyOverpayments,
   onUpdateMonthlyOverpayment,
-  onShowChart
 }: PaymentScheduleTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(24);
