@@ -93,22 +93,38 @@ const HomeLoanCalculator = () => {
         </div>
       </main>
 
-      {/* Simple Modal for Chart */}
+      {/* Modern Glass Effect Modal for Chart */}
       {isChartOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h3 className="text-lg font-semibold">กราฟแสดงการผ่อนชำระ</h3>
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={(e) => e.target === e.currentTarget && setIsChartOpen(false)}
+        >
+          {/* Backdrop with blur */}
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
+          
+          {/* Glass effect container */}
+          <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl bg-white">
+            {/* Glass header */}
+            <div className="bg-white/80 backdrop-blur-lg border-b border-white/20 p-4 flex justify-between items-center">
+              <h3 className="text-xl font-semibold text-gray-800">กราฟแสดงการผ่อนชำระ</h3>
               <button 
                 onClick={() => setIsChartOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="p-2 rounded-full hover:bg-gray-100/50 transition-colors text-gray-600 hover:text-gray-800"
+                aria-label="ปิด"
               >
-                ✕
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               </button>
             </div>
-            <div className="p-6 overflow-auto">
-              <div className="min-h-[500px] w-full">
-                <LoanCharts paymentDetails={paymentDetails} />
+            
+            {/* Glass content */}
+            <div className="flex-1 overflow-auto bg-white/60 backdrop-blur-sm">
+              <div className="p-6">
+                <div className="min-h-[500px] w-full">
+                  <LoanCharts paymentDetails={paymentDetails} />
+                </div>
               </div>
             </div>
           </div>
